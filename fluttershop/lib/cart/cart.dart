@@ -11,10 +11,9 @@ class ShoppingCart {
 
   int get totalPrice {
     int totalPrice = 0;
-    items.forEach((element) {
-      totalPrice += element.price;
+    items.forEach((i) {
+      totalPrice += i.price;
     });
-
     return totalPrice;
   }
 
@@ -30,8 +29,43 @@ class ShoppingCart {
     if (items.isEmpty) {
       return false;
     }
-
-    final indexOfItem = items.indexWhere((element) => item.id == element.id);
+    final indexOfItem = items.indexWhere((i) => item.id == i.id);
     return indexOfItem >= 0;
+  }
+
+  void add(Item item) {
+    if (items.isEmpty) {
+      items.add(item);
+      return;
+    }
+
+    if (!this.isExists(item)) {
+      items.add(item);
+    }
+  }
+
+  void remove(Item item) {
+    if (items.isEmpty) return;
+
+    final indexOfItem = items.indexWhere((i) => item.id == i.id);
+    if (indexOfItem >= 0) {
+      items.removeAt(indexOfItem);
+    }
+  }
+
+  Map<String, dynamic> get toMap {
+    final List<Map<String, dynamic>> items = this
+        .items
+        .map((i) => {
+              'id': i.id,
+              'name': i.name,
+              'description': i.description,
+              'price': i.price,
+              'inStock': i.inStock,
+              'imageUrl': i.imageUrl
+            })
+        .toList();
+
+    return {"orderId": this.orderId, "items": items, "total": this.totalPrice};
   }
 }

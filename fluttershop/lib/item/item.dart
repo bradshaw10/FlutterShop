@@ -19,6 +19,13 @@ class Item {
 
   String get formattedAvailability => inStock ? "Available" : "Out of stock";
 
+  String get formattedPrice => Item.formatter.format(this.price);
+
+  Color get availabilityColor => inStock ? Colors.grey : Colors.red;
+
+  static final formatter =
+      NumberFormat.currency(locale: 'en_IE', symbol: "Eu ");
+
   static List<Item> get dummyItems => [
         Item(
             id: "1",
